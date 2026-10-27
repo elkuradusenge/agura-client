@@ -25,6 +25,10 @@ export function NotificationsScreen() {
       <ul className="space-y-2">
         {data.items.map((item) => {
           const params = item.params as Record<string, string | number>;
+          // The server renders the admin edited template, so prefer it and only
+          // fall back to the shipped dictionary when it is missing.
+          const title = item.title ?? t(item.title_translation_key, params);
+          const body = item.body ?? t(item.body_translation_key, params);
           return (
             <li key={item.id}>
               <button
@@ -37,10 +41,10 @@ export function NotificationsScreen() {
                 }}
               >
                 <span className="flex items-start justify-between gap-2">
-                  <span className="text-sm font-medium">{t(item.title_translation_key, params)}</span>
+                  <span className="text-sm font-medium">{title}</span>
                   {item.read_at === null ? <Badge tone="success">{t("notifications.unread")}</Badge> : null}
                 </span>
-                <span className="muted block text-sm">{t(item.body_translation_key, params)}</span>
+                <span className="muted block text-sm">{body}</span>
                 <span className="muted block text-xs">
                   {formatDate(item.created_at, language)} {formatKigaliTime(item.created_at)}
                   {item.sms_sent ? ` - ${t("notifications.smsSent")}` : ""}

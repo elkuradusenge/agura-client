@@ -88,10 +88,17 @@ export class WsClient {
       this.options.onEvent(message);
     };
 
-    socket.onclose = () => {
+    socket.onclose = (event: CloseEvent) => {
       this.stopHeartbeat();
       this.socket = null;
       if (this.stopped) {
+        this.setStatus("closed");
+        return;
+      }
+      // 1008 is a policy violation, which here means the token was rejected.
+      // Retrying cannot succeed until the person signs in again.
+      if (event.code === 1008) {
+        this.stopped = true;
         this.setStatus("closed");
         return;
       }

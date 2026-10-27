@@ -91,6 +91,23 @@ the query string.
 returns the key itself so it is visible in review. `{variable}` placeholders are
 interpolated. The three dictionaries are kept key-identical by a test.
 
+## Hardening notes
+
+- **Auth rejection stops the socket.** A `1008` close means the token was refused,
+  so the client stops retrying instead of hammering the server until sign in.
+- **Reconnect catch-up.** Every reconnect sends the last event timestamp as a
+  `since` cursor and refetches on `connection.ready`, so nothing is missed silently.
+- **Tokens live in local storage.** The access token is short lived and the refresh
+  token rotates, which is the usual trade for a mobile-first app with no cookie
+  domain. If the deployment gains a shared cookie domain, move them to httpOnly
+  cookies and drop the storage helpers in `lib/api/client.ts`.
+- **No injection sinks.** There is no `dangerouslySetInnerHTML` and no `innerHTML`
+  anywhere in `src`; all server text renders as text nodes.
+- **Nothing is logged.** No token, response or user field reaches the console.
+- **Low data mode** hides images through `html[data-low-data="true"] img` and the
+  preference is honoured before first paint.
+- **Reduced motion** is respected globally in `index.css`.
+
 ## Design decisions worth knowing
 
 - The console bundle is lazy loaded. A farmer never downloads it.

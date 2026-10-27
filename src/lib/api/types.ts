@@ -214,6 +214,9 @@ export interface NotificationRead {
   type: string;
   title_translation_key: string;
   body_translation_key: string;
+  /** Resolved from the admin editable template, in the farmer's language. */
+  title: string | null;
+  body: string | null;
   params: Record<string, unknown>;
   task_instance_id: string | null;
   sms_sent: boolean;
