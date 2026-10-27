@@ -1,4 +1,4 @@
-/** Layout shells: farmer navigation, admin sidebar, language and theme controls. */
+/** Layout shells: farmer navigation, admin sidebar, language, theme, low data. */
 
 import type { ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -40,18 +40,34 @@ interface NavItem {
   badge?: number;
 }
 
-function LanguageSwitcher() {
-  const { language, setLanguage } = useI18n();
-  const { setTheme, theme, lowData, setLowData } = usePreferences();
-  const label = useI18n().t("common.language");
+/** The wordmark, used by both shells and by the landing page header. */
+export function Brand({ compact = false }: { compact?: boolean }) {
+  const { t } = useI18n();
+  return (
+    <span className="flex items-center gap-2">
+      <span className="flex h-9 w-9 items-center justify-center rounded-card bg-primary text-primary-on">
+        <Leaf aria-hidden className="h-5 w-5" />
+      </span>
+      {compact ? null : (
+        /* Hidden below sm so the header still fits a 360px phone. */
+        <span className="hidden text-lg font-bold tracking-tight text-ink-heading sm:inline">
+          {t("app.name")}
+        </span>
+      )}
+    </span>
+  );
+}
+
+export function LanguageSwitcher() {
+  const { language, setLanguage, t } = useI18n();
+  const label = t("common.language");
 
   return (
-    <div className="flex items-center gap-1">
-      <span className="sr-only">{label}</span>
-      <Languages aria-hidden className="h-4 w-4" />
+    <span className="flex items-center gap-1 rounded-pill border border-line px-2 py-1">
+      <Languages aria-hidden className="h-4 w-4 text-ink-muted" />
       <select
         aria-label={label}
-        className="tap-target rounded-lg border border-earth-300 bg-white px-2 text-sm dark:border-earth-600 dark:bg-earth-800"
+        className="min-w-0 cursor-pointer rounded-pill bg-transparent py-1 pr-1 text-sm text-ink-heading focus-visible:outline-none"
         value={language}
         onChange={(event) => setLanguage(event.target.value as Language)}
       >
@@ -61,26 +77,53 @@ function LanguageSwitcher() {
           </option>
         ))}
       </select>
-      <button
-        type="button"
-        aria-label={useI18n().t("common.theme")}
-        className="tap-target rounded-lg p-2 hover:bg-earth-100 dark:hover:bg-earth-700"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      >
-        {theme === "dark" ? <Sun aria-hidden className="h-4 w-4" /> : <Moon aria-hidden className="h-4 w-4" />}
-      </button>
-      <button
-        type="button"
-        aria-pressed={lowData}
-        aria-label={useI18n().t("common.lowData")}
-        className={cn(
-          "tap-target rounded-lg px-2 py-2 text-xs font-medium",
-          lowData ? "bg-amber-500 text-earth-900" : "hover:bg-earth-100 dark:hover:bg-earth-700",
-        )}
-        onClick={() => setLowData(!lowData)}
-      >
-        1x
-      </button>
+    </span>
+  );
+}
+
+export function ThemeToggle() {
+  const { setTheme, theme } = usePreferences();
+  const { t } = useI18n();
+  return (
+    <button
+      type="button"
+      aria-label={t("common.theme")}
+      className="tap-target press flex items-center justify-center rounded-pill p-2.5 text-ink-muted hover:bg-primary-tint hover:text-primary-text"
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    >
+      {theme === "dark" ? <Sun aria-hidden className="h-5 w-5" /> : <Moon aria-hidden className="h-5 w-5" />}
+    </button>
+  );
+}
+
+function LowDataToggle() {
+  const { lowData, setLowData } = usePreferences();
+  const { t } = useI18n();
+  return (
+    <button
+      type="button"
+      aria-pressed={lowData}
+      aria-label={t("common.lowData")}
+      className={cn(
+        "tap-target press rounded-pill px-3 py-2 text-xs font-medium",
+        lowData
+          ? "bg-primary text-primary-on"
+          : "text-ink-muted hover:bg-primary-tint hover:text-primary-text",
+      )}
+      onClick={() => setLowData(!lowData)}
+    >
+      1x
+    </button>
+  );
+}
+
+/** Language, theme and low data, grouped so both shells and the landing page agree. */
+export function PreferenceControls({ showLowData = true }: { showLowData?: boolean }) {
+  return (
+    <div className="flex items-center gap-1">
+      <LanguageSwitcher />
+      <ThemeToggle />
+      {showLowData ? <LowDataToggle /> : null}
     </div>
   );
 }
@@ -92,7 +135,7 @@ export function OfflineBanner() {
   if (online && status !== "reconnecting") return null;
   return (
     <div
-      className="flex items-center justify-center gap-2 bg-amber-500 px-4 py-2 text-sm font-medium text-earth-900"
+      className="flex items-center justify-center gap-2 bg-warning px-4 py-2 text-sm font-medium text-canvas"
       role="status"
     >
       <WifiOff aria-hidden className="h-4 w-4" />
@@ -110,6 +153,9 @@ function useUnreadCount(enabled: boolean) {
   });
   return data?.unread ?? 0;
 }
+
+const ACTIVE_NAV = "bg-primary-tint font-semibold text-primary-text";
+const IDLE_NAV = "text-ink hover:bg-surface-raised";
 
 export function FarmerLayout({ children }: { children: ReactNode }) {
   const { t } = useI18n();
@@ -134,14 +180,13 @@ export function FarmerLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen pb-20 lg:pb-0">
       <OfflineBanner />
-      <header className="border-b border-earth-200 bg-white/80 backdrop-blur dark:border-earth-700 dark:bg-earth-800/80">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Leaf aria-hidden className="h-6 w-6 text-leaf-600" />
-            <span className="text-lg font-semibold">{t("app.name")}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
+      <header className="sticky top-0 z-30 border-b border-line bg-surface-translucent backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <NavLink to="/app" className="tap-target flex items-center">
+            <Brand />
+          </NavLink>
+          <div className="flex items-center gap-1">
+            <PreferenceControls />
             <Button
               variant="ghost"
               aria-label={t("auth.signOut")}
@@ -158,24 +203,24 @@ export function FarmerLayout({ children }: { children: ReactNode }) {
 
       <nav
         aria-label={t("nav.products")}
-        className="fixed bottom-0 left-0 right-0 z-20 border-t border-earth-200 bg-white lg:hidden dark:border-earth-700 dark:bg-earth-800"
+        className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden"
       >
         <ul className="flex">
           {items.slice(0, 4).map((item) => (
-            <li key={item.to} className="flex-1">
+            <li key={item.to} className="relative flex-1">
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
                   cn(
-                    "tap-target flex flex-col items-center gap-1 py-2 text-[11px]",
-                    isActive ? "text-leaf-700 dark:text-leaf-200" : "muted",
+                    "tap-target flex flex-col items-center gap-1 py-2 text-[11px] transition-colors duration-fast",
+                    isActive ? "text-primary-text" : "text-ink-muted",
                   )
                 }
               >
                 {item.icon}
                 <span>{t(item.labelKey)}</span>
                 {item.badge && item.badge > 0 ? (
-                  <span className="absolute mt-0 rounded-full bg-amber-500 px-1.5 text-[10px] font-semibold text-earth-900">
+                  <span className="absolute right-4 top-1 rounded-pill bg-primary px-1.5 text-[10px] font-semibold text-primary-on">
                     {item.badge}
                   </span>
                 ) : null}
@@ -185,7 +230,7 @@ export function FarmerLayout({ children }: { children: ReactNode }) {
         </ul>
       </nav>
 
-      <div className="mx-auto flex max-w-5xl gap-6 px-4 py-6">
+      <div className="mx-auto flex max-w-6xl gap-8 px-4 py-8">
         <aside className="hidden w-56 shrink-0 lg:block">
           <ul className="space-y-1">
             {items.map((item) => (
@@ -194,10 +239,8 @@ export function FarmerLayout({ children }: { children: ReactNode }) {
                   to={item.to}
                   className={({ isActive }) =>
                     cn(
-                      "tap-target flex items-center justify-between rounded-xl px-3 py-2 text-sm",
-                      isActive
-                        ? "bg-leaf-100 font-semibold text-leaf-800 dark:bg-earth-700 dark:text-leaf-100"
-                        : "hover:bg-earth-100 dark:hover:bg-earth-700",
+                      "tap-target press flex items-center justify-between gap-2 rounded-pill px-4 py-2 text-sm transition-colors duration-fast",
+                      isActive ? ACTIVE_NAV : IDLE_NAV,
                     )
                   }
                 >
@@ -205,7 +248,7 @@ export function FarmerLayout({ children }: { children: ReactNode }) {
                     {item.icon}
                     {t(item.labelKey)}
                   </span>
-                  {item.badge && item.badge > 0 ? <Badge tone="warning">{item.badge}</Badge> : null}
+                  {item.badge && item.badge > 0 ? <Badge tone="info">{item.badge}</Badge> : null}
                 </NavLink>
               </li>
             ))}
@@ -262,15 +305,14 @@ export function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
       <OfflineBanner />
-      <header className="border-b border-earth-200 bg-white dark:border-earth-700 dark:bg-earth-800">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+      <header className="sticky top-0 z-30 border-b border-line bg-surface-translucent backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2">
-            <Leaf aria-hidden className="h-6 w-6 text-leaf-600" />
-            <span className="text-lg font-semibold">{t("app.name")}</span>
+            <Brand />
             {admin ? <Badge tone="info">{admin.role}</Badge> : null}
           </div>
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
+          <div className="flex items-center gap-1">
+            <PreferenceControls />
             <Button
               variant="ghost"
               aria-label={t("auth.signOut")}
@@ -285,7 +327,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-6xl gap-6 px-4 py-6">
+      <div className="mx-auto flex max-w-7xl gap-8 px-4 py-8">
         <aside className="hidden w-60 shrink-0 md:block">
           <nav aria-label={t("nav.dashboard")}>
             <ul className="space-y-1">
@@ -296,10 +338,8 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                     end={item.to === "/admin"}
                     className={({ isActive }) =>
                       cn(
-                        "tap-target flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-                        isActive
-                          ? "bg-leaf-100 font-semibold text-leaf-800 dark:bg-earth-700 dark:text-leaf-100"
-                          : "hover:bg-earth-100 dark:hover:bg-earth-700",
+                        "tap-target press flex items-center gap-2 rounded-pill px-4 py-2 text-sm transition-colors duration-fast",
+                        isActive ? ACTIVE_NAV : IDLE_NAV,
                       )
                     }
                   >

@@ -52,10 +52,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div
               key={toast.id}
               className={cn(
-                "pointer-events-auto flex w-full max-w-md items-start gap-2 rounded-xl px-4 py-3 shadow-lg",
-                toast.tone === "success" && "bg-leaf-600 text-white",
-                toast.tone === "warning" && "bg-amber-500 text-earth-900",
-                toast.tone === "info" && "bg-earth-800 text-earth-50",
+                "pointer-events-auto flex w-full max-w-md items-start gap-2 rounded-panel px-4 py-3 shadow-e2 animate-fade-up",
+                toast.tone === "success" && "bg-success text-canvas",
+                toast.tone === "warning" && "bg-warning text-canvas",
+                toast.tone === "info" && "bg-ink-heading text-canvas",
               )}
             >
               <Icon aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
@@ -63,7 +63,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 aria-label="close"
-                className="rounded p-1"
+                className="press rounded-pill p-1 hover:opacity-80"
                 onClick={() => setToasts((current) => current.filter((item) => item.id !== toast.id))}
               >
                 <X aria-hidden className="h-4 w-4" />

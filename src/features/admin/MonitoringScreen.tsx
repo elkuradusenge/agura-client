@@ -68,7 +68,7 @@ export function MonitoringScreen() {
         {failures.data?.items.length ? (
           <ul className="space-y-1 text-sm">
             {(failures.data.items as unknown as SmsRow[]).map((row) => (
-              <li key={row.id} className="flex items-center justify-between gap-2 border-b border-earth-200 py-1 dark:border-earth-700">
+              <li key={row.id} className="flex items-center justify-between gap-2 border-b border-line py-1 ">
                 <span>{row.phone}</span>
                 <Badge tone="danger">{row.error_code ?? row.status}</Badge>
                 <span className="muted text-xs">{formatDateTime(row.created_at, language)}</span>

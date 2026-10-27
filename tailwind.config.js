@@ -1,48 +1,91 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Tailwind maps semantic names onto the CSS custom properties declared in
+ * src/styles/tokens.css. No colour literal belongs in this file or in a
+ * component: add or change a value in tokens.css only.
+ *
+ * Because the tokens resolve per theme, most components never need a `dark:`
+ * variant for colour. Use `dark:` only when the structure differs.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        // Syne is the only typeface in the product. No fallback stacks that would
-        // render a different shape: the sans stack is the browser default only.
-        sans: ["Syne", "system-ui", "sans-serif"],
+        // Google Sans, then Google Sans Flex, then the system sans stack.
+        sans: [
+          '"Google Sans"',
+          '"Google Sans Flex"',
+          "system-ui",
+          "-apple-system",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          "Arial",
+          "sans-serif",
+        ],
       },
       colors: {
-        leaf: {
-          50: "#f0f7f1",
-          100: "#dcecdf",
-          200: "#bcdac2",
-          300: "#8fc09a",
-          400: "#5d9f6d",
-          500: "#3d8350",
-          600: "#2d693e",
-          700: "#255333",
-          800: "#1f422b",
-          900: "#1a3724",
+        canvas: {
+          DEFAULT: "var(--canvas)",
+          translucent: "var(--canvas-translucent)",
         },
-        earth: {
-          50: "#faf7f2",
-          100: "#f2ebdf",
-          200: "#e4d5bf",
-          300: "#d2b795",
-          400: "#bf976c",
-          500: "#b07f50",
-          600: "#9a6943",
-          700: "#7d5139",
-          800: "#674434",
-          900: "#56392d",
+        surface: {
+          DEFAULT: "var(--surface)",
+          raised: "var(--surface-raised)",
+          translucent: "var(--surface-translucent)",
         },
-        amber: {
-          400: "#f5b942",
-          500: "#eda324",
-          600: "#d1821a",
+        line: {
+          DEFAULT: "var(--line)",
+          strong: "var(--line-strong)",
+        },
+        ink: {
+          DEFAULT: "var(--ink)",
+          heading: "var(--ink-heading)",
+          muted: "var(--ink-muted)",
+        },
+        primary: {
+          DEFAULT: "var(--primary)",
+          hover: "var(--primary-hover)",
+          active: "var(--primary-active)",
+          text: "var(--primary-text)",
+          tint: "var(--primary-tint)",
+          "tint-strong": "var(--primary-tint-strong)",
+          on: "var(--on-primary)",
+        },
+        success: {
+          DEFAULT: "var(--success)",
+          tint: "var(--success-tint)",
+        },
+        warning: {
+          DEFAULT: "var(--warning)",
+          tint: "var(--warning-tint)",
         },
         danger: {
-          500: "#c0392b",
-          600: "#a93226",
+          DEFAULT: "var(--danger)",
+          tint: "var(--danger-tint)",
         },
+      },
+      borderRadius: {
+        card: "12px",
+        panel: "16px",
+        dialog: "24px",
+        pill: "9999px",
+      },
+      boxShadow: {
+        e1: "var(--shadow-e1)",
+        e2: "var(--shadow-e2)",
+        e3: "var(--shadow-e3)",
+      },
+      transitionDuration: {
+        fast: "150ms",
+        base: "200ms",
+        slow: "250ms",
+      },
+      transitionTimingFunction: {
+        material: "cubic-bezier(0.2, 0, 0, 1)",
       },
       minHeight: {
         tap: "44px",
@@ -50,8 +93,25 @@ export default {
       minWidth: {
         tap: "44px",
       },
+      maxWidth: {
+        content: "1120px",
+      },
       screens: {
         xs: "360px",
+      },
+      keyframes: {
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "press-in": {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(0.97)" },
+        },
+      },
+      animation: {
+        "fade-up": "fade-up var(--duration-slow) var(--ease-material) both",
+        "press-in": "press-in var(--duration-fast) var(--ease-material) both",
       },
     },
   },

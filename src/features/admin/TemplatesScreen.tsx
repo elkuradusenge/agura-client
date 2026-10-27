@@ -106,7 +106,7 @@ export function TemplatesScreen() {
                       {t("common.save")}
                     </Button>
                   </div>
-                  {value.includes("TODO") ? <p className="text-xs text-amber-600">Needs translation review</p> : null}
+                  {value.includes("TODO") ? <p className="text-xs text-warning">Needs translation review</p> : null}
                 </div>
               );
             })}

@@ -42,7 +42,7 @@ export function ProductsScreen() {
 
       <Field label={t("products.search")} htmlFor="productSearch">
         <div className="relative">
-          <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-earth-500" />
+          <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-ink-muted" />
           <Input
             id="productSearch"
             className="pl-9"
@@ -60,13 +60,13 @@ export function ProductsScreen() {
       ) : isError ? (
         <ErrorState title={t("common.error")} retryLabel={t("common.retry")} onRetry={() => void refetch()} />
       ) : !data?.items.length ? (
-        <EmptyState title={t("common.empty")} icon={<Leaf aria-hidden className="h-8 w-8 text-leaf-600" />} />
+        <EmptyState title={t("common.empty")} icon={<Leaf aria-hidden className="h-8 w-8 text-primary-text" />} />
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2">
           {data.items.map((product) => (
             <li key={product.id}>
               <Link to={`/app/products/${product.id}`} className="block">
-                <Card className="h-full space-y-2 transition hover:border-leaf-400">
+                <Card className="h-full space-y-2 transition hover:border-primary">
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="font-semibold">{product.name_rw ?? product.name_en}</h2>
                     <Badge tone="success">{t("status.trackable")}</Badge>
@@ -136,8 +136,8 @@ export function ProductDetailScreen() {
                   aria-selected={activeAgeGroup === item.group}
                   className={
                     activeAgeGroup === item.group
-                      ? "tap-target rounded-lg bg-leaf-600 px-3 text-sm text-white"
-                      : "tap-target rounded-lg bg-earth-100 px-3 text-sm dark:bg-earth-700"
+                      ? "tap-target rounded-lg bg-primary px-3 text-sm text-primary-on"
+                      : "tap-target rounded-lg bg-surface-raised px-3 text-sm "
                   }
                   onClick={() => setActiveAgeGroup(item.group)}
                 >
@@ -153,6 +153,7 @@ export function ProductDetailScreen() {
         id: "nutrients",
         title: t("products.nutrients"),
         body: product.nutrients.length ? (
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <caption className="sr-only">{t("products.nutrients")}</caption>
             <thead>
@@ -164,7 +165,7 @@ export function ProductDetailScreen() {
             </thead>
             <tbody>
               {product.nutrients.map((nutrient) => (
-                <tr key={nutrient.nutrient} className="border-t border-earth-200 dark:border-earth-700">
+                <tr key={nutrient.nutrient} className="border-t border-line ">
                   <td className="py-1.5">{nutrient.nutrient}</td>
                   <td className="py-1.5">
                     {nutrient.amount_per_100g ?? "-"} {nutrient.unit ?? ""}
@@ -174,6 +175,7 @@ export function ProductDetailScreen() {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <p className="muted text-sm">{t("admin.ai.notice")}</p>
         ),
@@ -184,7 +186,7 @@ export function ProductDetailScreen() {
         body: (
           <div className="space-y-2">
             <p className="text-sm">{product.conditions_diseases ?? "-"}</p>
-            <p className="flex items-start gap-2 rounded-xl bg-amber-400/20 p-3 text-sm">
+            <p className="flex items-start gap-2 rounded-xl bg-warning-tint p-3 text-sm">
               <Info aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
               {t("products.educationalNote")}
             </p>
@@ -203,7 +205,7 @@ export function ProductDetailScreen() {
         id: "cautions",
         title: t("products.howNotToUse"),
         body: (
-          <p className="flex items-start gap-2 rounded-xl border border-amber-500 bg-amber-400/20 p-3 text-sm">
+          <p className="flex items-start gap-2 rounded-xl border border-warning bg-warning-tint p-3 text-sm">
             <AlertTriangle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
             {product.how_not_to_use ?? "-"}
           </p>
@@ -216,7 +218,7 @@ export function ProductDetailScreen() {
         body: (
           <ul className="space-y-2">
             {product.recipes.map((recipe) => (
-              <li key={recipe.name} className="rounded-xl bg-earth-100 p-3 text-sm dark:bg-earth-700">
+              <li key={recipe.name} className="rounded-xl bg-surface-raised p-3 text-sm ">
                 <p className="font-medium">{recipe.name}</p>
                 <p className="muted">{recipe.ingredients?.join(", ")}</p>
                 {recipe.steps ? <p>{recipe.steps}</p> : null}
@@ -251,7 +253,7 @@ export function ProductDetailScreen() {
         body: (
           <ul className="space-y-1 text-sm">
             {product.resources.map((resource) => (
-              <li key={resource.name} className="flex justify-between gap-3 border-b border-earth-200 py-1 dark:border-earth-700">
+              <li key={resource.name} className="flex justify-between gap-3 border-b border-line py-1 ">
                 <span>{resource.name}</span>
                 <span className="muted">
                   {resource.quantity ?? "-"} {resource.estimated_cost ? `(${resource.estimated_cost} RWF)` : ""}
@@ -268,7 +270,7 @@ export function ProductDetailScreen() {
           <ol className="space-y-2 text-sm">
             {product.schedule_tasks.map((task) => (
               <li key={task.id} className="flex gap-2">
-                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-leaf-600" aria-hidden />
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary" aria-hidden />
                 <span>
                   <span className="font-medium">Day {task.day_offset}</span>, {task.time_of_day}.{" "}
                   {task.instruction_text}
@@ -296,7 +298,7 @@ export function ProductDetailScreen() {
 
       {context ? (
         <Card className="flex items-center gap-3">
-          <Users aria-hidden className="h-5 w-5 text-leaf-600" />
+          <Users aria-hidden className="h-5 w-5 text-primary-text" />
           <p className="text-sm">
             {context.available && context.share !== null
               ? t("products.provinceContext", {
@@ -320,8 +322,8 @@ export function ProductDetailScreen() {
               aria-expanded={openSection === section.id}
               className={
                 openSection === section.id
-                  ? "tap-target whitespace-nowrap rounded-lg bg-leaf-100 px-3 text-sm font-semibold text-leaf-800 dark:bg-earth-700 dark:text-leaf-100"
-                  : "tap-target whitespace-nowrap rounded-lg px-3 text-sm hover:bg-earth-100 dark:hover:bg-earth-700"
+                  ? "tap-target whitespace-nowrap rounded-lg bg-primary-tint px-3 text-sm font-semibold text-primary-text "
+                  : "tap-target whitespace-nowrap rounded-lg px-3 text-sm hover:bg-surface-raised "
               }
               onClick={() => setOpenSection(section.id)}
             >
@@ -356,7 +358,7 @@ export function ProductDetailScreen() {
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-16 z-10 flex gap-2 border-t border-earth-200 bg-white p-3 lg:bottom-0 dark:border-earth-700 dark:bg-earth-800">
+      <div className="fixed inset-x-0 bottom-16 z-10 flex gap-2 border-t border-line bg-surface p-3 lg:bottom-0 ">
         <Button fullWidth icon={<Sprout aria-hidden className="h-4 w-4" />} onClick={() => navigate(`/app/products/${data.id}/plant`)}>
           {t("products.plant")}
         </Button>

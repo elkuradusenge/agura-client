@@ -74,7 +74,7 @@ export function AuditScreen() {
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.id} className="border-t border-earth-200 dark:border-earth-700">
+                <tr key={row.id} className="border-t border-line ">
                   <td className="py-1.5">{formatDateTime(row.created_at, language)}</td>
                   <td className="py-1.5">{row.actor_label ?? "-"}</td>
                   <td className="py-1.5 font-mono text-xs">{row.action}</td>

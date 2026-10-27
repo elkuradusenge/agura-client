@@ -29,7 +29,7 @@ function TaskRow({ task }: { task: TaskRead }) {
       >
         <CheckCircle2
           aria-hidden
-          className={task.status === "done" ? "h-6 w-6 text-leaf-600" : "h-6 w-6 text-earth-400"}
+          className={task.status === "done" ? "h-6 w-6 text-primary-text" : "h-6 w-6 text-ink-muted"}
         />
       </button>
       <div className="min-w-0 flex-1">
@@ -69,7 +69,7 @@ export function TodayScreen() {
 
       <section aria-labelledby="morningHeading" className="space-y-2">
         <h2 id="morningHeading" className="flex items-center gap-2 font-semibold">
-          <Sunrise aria-hidden className="h-5 w-5 text-amber-500" />
+          <Sunrise aria-hidden className="h-5 w-5 text-warning" />
           {t("tasks.morning")}
         </h2>
         {morning.length ? (
@@ -87,7 +87,7 @@ export function TodayScreen() {
 
       <section aria-labelledby="eveningHeading" className="space-y-2">
         <h2 id="eveningHeading" className="flex items-center gap-2 font-semibold">
-          <Moon aria-hidden className="h-5 w-5 text-earth-500" />
+          <Moon aria-hidden className="h-5 w-5 text-ink-muted" />
           {t("tasks.evening")}
         </h2>
         {evening.length ? (
@@ -104,7 +104,7 @@ export function TodayScreen() {
       </section>
 
       {!morning.length && !evening.length ? (
-        <EmptyState title={t("tasks.none")} icon={<CheckCircle2 aria-hidden className="h-8 w-8 text-leaf-600" />} />
+        <EmptyState title={t("tasks.none")} icon={<CheckCircle2 aria-hidden className="h-8 w-8 text-primary-text" />} />
       ) : null}
     </div>
   );

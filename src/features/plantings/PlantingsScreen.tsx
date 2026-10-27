@@ -31,7 +31,7 @@ export function PlantingsScreen() {
   if (isError)
     return <ErrorState title={t("common.error")} retryLabel={t("common.retry")} onRetry={() => void refetch()} />;
   if (!data?.items.length)
-    return <EmptyState title={t("plantings.none")} icon={<Sprout aria-hidden className="h-8 w-8 text-leaf-600" />} />;
+    return <EmptyState title={t("plantings.none")} icon={<Sprout aria-hidden className="h-8 w-8 text-primary-text" />} />;
 
   return (
     <div className="space-y-4">
@@ -40,7 +40,7 @@ export function PlantingsScreen() {
         {data.items.map((planting) => (
           <li key={planting.id}>
             <Link to={`/app/plantings/${planting.id}`}>
-              <Card className="space-y-2 transition hover:border-leaf-400">
+              <Card className="space-y-2 transition hover:border-primary">
                 <div className="flex items-start justify-between gap-2">
                   <h2 className="font-semibold">{planting.product_name_rw ?? planting.product_name_en}</h2>
                   <Badge tone={planting.status === "active" ? "success" : "neutral"}>

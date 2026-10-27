@@ -30,32 +30,32 @@ export function DashboardScreen() {
     {
       label: t("admin.dashboard.farmers"),
       value: `${formatNumber(data.users.active)} / ${formatNumber(data.users.total)}`,
-      icon: <Users aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <Users aria-hidden className="h-5 w-5 text-primary-text" />,
     },
     {
       label: t("admin.dashboard.plantings"),
       value: `${formatNumber(data.plantings.active)} / ${formatNumber(data.plantings.total)}`,
-      icon: <Sprout aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <Sprout aria-hidden className="h-5 w-5 text-primary-text" />,
     },
     {
       label: t("admin.dashboard.completion"),
       value: formatPercent(data.tasks.completion_rate),
-      icon: <ClipboardList aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <ClipboardList aria-hidden className="h-5 w-5 text-primary-text" />,
     },
     {
       label: t("admin.dashboard.reminders"),
       value: `${formatNumber(data.reminders.sms_sent)} / ${formatNumber(data.reminders.created)}`,
-      icon: <TrendingUp aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <TrendingUp aria-hidden className="h-5 w-5 text-primary-text" />,
     },
     {
       label: t("admin.dashboard.openRequests"),
       value: formatNumber(data.specialist_requests.open),
-      icon: <MessageSquare aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <MessageSquare aria-hidden className="h-5 w-5 text-primary-text" />,
     },
     {
       label: t("admin.products.title"),
       value: formatNumber(data.products.trackable),
-      icon: <Leaf aria-hidden className="h-5 w-5 text-leaf-600" />,
+      icon: <Leaf aria-hidden className="h-5 w-5 text-primary-text" />,
     },
   ];
 

@@ -49,8 +49,8 @@ export function SuggestionsScreen() {
       <h1 className="text-2xl font-bold">{t("admin.ai.title")}</h1>
 
       <Card className="space-y-3">
-        <p className="flex items-start gap-2 rounded-xl bg-leaf-50 p-3 text-sm dark:bg-earth-700">
-          <Info aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-leaf-700 dark:text-leaf-200" />
+        <p className="flex items-start gap-2 rounded-xl bg-primary-tint p-3 text-sm">
+          <Info aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-primary-text" />
           {t("admin.ai.peopleDecide")}
         </p>
 
@@ -66,7 +66,7 @@ export function SuggestionsScreen() {
                 step={0.05}
                 value={weights[key]}
                 onChange={(event) => setWeights((current) => ({ ...current, [key]: Number(event.target.value) }))}
-                className="w-full accent-leaf-600"
+                className="w-full accent-primary"
               />
               <span className="muted text-xs">{weights[key].toFixed(2)}</span>
             </Field>
@@ -101,7 +101,7 @@ export function SuggestionsScreen() {
           </div>
 
           {latest.data.warnings.length ? (
-            <ul className="space-y-1 text-xs text-amber-600">
+            <ul className="space-y-1 text-xs text-warning">
               {latest.data.warnings.map((warning) => (
                 <li key={warning}>{warning}</li>
               ))}
@@ -110,7 +110,7 @@ export function SuggestionsScreen() {
 
           <ol className="space-y-2">
             {latest.data.items.map((item: RankingItem) => (
-              <li key={`${item.rank}-${item.food_item_id}`} className="rounded-xl bg-earth-100 p-3 dark:bg-earth-700">
+              <li key={`${item.rank}-${item.food_item_id}`} className="rounded-xl bg-surface-raised p-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-semibold">
                     {item.rank}. {item.standard_name ?? item.food_item_id}

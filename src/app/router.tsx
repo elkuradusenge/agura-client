@@ -5,7 +5,8 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AuthLoading } from "../features/auth/screens";
 import { useAuth } from "../features/auth/AuthProvider";
 import { AdminLayout, FarmerLayout } from "../components/layout";
-import { WelcomeScreen, SignUpScreen, SignInScreen, ResetPasswordScreen, AdminSignInScreen } from "../features/auth/screens";
+import { SignUpScreen, SignInScreen, ResetPasswordScreen, AdminSignInScreen } from "../features/auth/screens";
+import { LandingPage } from "../features/landing/LandingPage";
 import { ProductDetailScreen, ProductsScreen } from "../features/products/ProductsScreen";
 import { PlantScreen } from "../features/products/PlantScreen";
 import { PlantingDetailScreen, PlantingsScreen } from "../features/plantings/PlantingsScreen";
@@ -50,7 +51,7 @@ export function AppRouter() {
   return (
     <Suspense fallback={<AuthLoading />}>
       <Routes>
-      <Route path="/" element={<WelcomeScreen />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/sign-up" element={<SignUpScreen />} />
       <Route path="/sign-in" element={<SignInScreen />} />
       <Route path="/reset-password" element={<ResetPasswordScreen />} />

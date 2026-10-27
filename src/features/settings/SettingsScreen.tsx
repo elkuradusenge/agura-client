@@ -157,7 +157,7 @@ export function SettingsScreen() {
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
-            className="h-5 w-5 accent-leaf-600"
+            className="h-5 w-5 accent-primary"
             checked={form.message_opt_in}
             onChange={(event) => update("message_opt_in", event.target.checked)}
           />
@@ -166,7 +166,7 @@ export function SettingsScreen() {
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
-            className="h-5 w-5 accent-leaf-600"
+            className="h-5 w-5 accent-primary"
             checked={lowData}
             onChange={(event) => {
               setLowData(event.target.checked);
@@ -178,7 +178,7 @@ export function SettingsScreen() {
       </Card>
 
       {error ? (
-        <p className="text-sm text-danger-500" role="alert">
+        <p className="text-sm text-danger" role="alert">
           {error}
         </p>
       ) : null}
@@ -217,8 +217,8 @@ export function SettingsScreen() {
         </Button>
       </Card>
 
-      <Card className="space-y-2 border-danger-500/40">
-        <h2 className="flex items-center gap-2 font-semibold text-danger-600">
+      <Card className="space-y-2 border-danger">
+        <h2 className="flex items-center gap-2 font-semibold text-danger">
           <AlertTriangle aria-hidden className="h-4 w-4" />
           {t("settings.deleteAccount")}
         </h2>

@@ -45,11 +45,11 @@ function PipelinePanel({ job }: { job: JobDetail }) {
           return (
             <li key={stage} className="flex items-center gap-2 text-sm">
               {failedHere ? (
-                <AlertTriangle aria-hidden className="h-4 w-4 text-danger-500" />
+                <AlertTriangle aria-hidden className="h-4 w-4 text-danger" />
               ) : reached ? (
-                <CheckCircle2 aria-hidden className="h-4 w-4 text-leaf-600" />
+                <CheckCircle2 aria-hidden className="h-4 w-4 text-primary-text" />
               ) : (
-                <Circle aria-hidden className="h-4 w-4 text-earth-400" />
+                <Circle aria-hidden className="h-4 w-4 text-ink-muted" />
               )}
               <span className={reached ? "" : "muted"}>{t(`admin.stage.${stage}`)}</span>
             </li>
@@ -58,7 +58,7 @@ function PipelinePanel({ job }: { job: JobDetail }) {
       </ol>
 
       {job.error_message ? (
-        <p className="rounded-lg bg-danger-500/10 p-3 text-sm text-danger-600">
+        <p className="rounded-lg bg-danger-tint p-3 text-sm text-danger">
           {job.error_message}
           {job.error_code ? <span className="muted block text-xs">{job.error_code}</span> : null}
         </p>
@@ -197,7 +197,7 @@ export function SurveyDataScreen() {
 
       <Card className="space-y-3">
         <h2 className="flex items-center gap-2 font-semibold">
-          <Upload aria-hidden className="h-4 w-4 text-leaf-600" />
+          <Upload aria-hidden className="h-4 w-4 text-primary-text" />
           {t("admin.survey.upload")}
         </h2>
         <Field label={t("admin.survey.name")} htmlFor="surveyName">
@@ -212,7 +212,7 @@ export function SurveyDataScreen() {
             ref={fileRef}
             type="file"
             accept=".dta"
-            className="block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-leaf-600 file:px-4 file:py-2 file:text-white"
+            className="block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-primary-on"
           />
         </Field>
         <Button loading={busy} onClick={() => void upload()}>
@@ -300,7 +300,7 @@ function QualityPanel({ surveyId }: { surveyId?: string }) {
         ))}
       </dl>
       {report.warnings.length ? (
-        <ul className="space-y-1 text-xs text-amber-600">
+        <ul className="space-y-1 text-xs text-warning">
           {report.warnings.map((warning) => (
             <li key={warning} className="flex items-start gap-1">
               <AlertTriangle aria-hidden className="mt-0.5 h-3 w-3 shrink-0" />

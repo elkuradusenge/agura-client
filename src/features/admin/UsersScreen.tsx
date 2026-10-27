@@ -43,7 +43,7 @@ export function AdminUsersScreen() {
 
       <Field label={t("common.search")} htmlFor="userSearch">
         <div className="relative">
-          <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-earth-500" />
+          <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-ink-muted" />
           <Input id="userSearch" className="pl-9" value={search} onChange={(event) => setSearch(event.target.value)} />
         </div>
       </Field>

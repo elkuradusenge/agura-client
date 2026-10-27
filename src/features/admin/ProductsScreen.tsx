@@ -141,8 +141,8 @@ function ProductEditor({ product, onClose }: { product: ProductDetail | null; on
               aria-current={step === index ? "step" : undefined}
               className={
                 step === index
-                  ? "tap-target rounded-lg bg-leaf-600 px-3 text-sm text-white"
-                  : "tap-target rounded-lg bg-earth-100 px-3 text-sm dark:bg-earth-700"
+                  ? "tap-target rounded-lg bg-primary px-3 text-sm text-primary-on"
+                  : "tap-target rounded-lg bg-surface-raised px-3 text-sm"
               }
               onClick={() => setStep(index)}
             >
@@ -244,7 +244,7 @@ function ProductEditor({ product, onClose }: { product: ProductDetail | null; on
           <p className="muted text-xs">{t("admin.ai.notice")}</p>
           <ul className="space-y-2">
             {draft.tasks.map((task, index) => (
-              <li key={task.id} className="rounded-xl border border-earth-200 p-3 dark:border-earth-700">
+              <li key={task.id} className="rounded-xl border border-line p-3">
                 <div className="grid gap-2 sm:grid-cols-4">
                   <Field label="Day" htmlFor={`day-${task.id}`}>
                     <Input
@@ -404,7 +404,7 @@ export function AdminProductsScreen() {
       {table.isLoading ? <Skeleton className="h-40" /> : null}
 
       {table.data && !table.data.items.length ? (
-        <EmptyState title={t("common.empty")} icon={<BookOpen aria-hidden className="h-8 w-8 text-leaf-600" />} />
+        <EmptyState title={t("common.empty")} icon={<BookOpen aria-hidden className="h-8 w-8 text-primary-text" />} />
       ) : null}
 
       {table.data?.items.length ? (
@@ -433,7 +433,7 @@ export function AdminProductsScreen() {
                   blockers: Array<{ field: string; translation_key: string }>;
                 };
                 return (
-                  <tr key={typed.id} className="border-t border-earth-200 align-top dark:border-earth-700">
+                  <tr key={typed.id} className="border-t border-line align-top">
                     <th scope="row" className="py-2 text-left font-medium">
                       {typed.name_en}
                     </th>
@@ -449,7 +449,7 @@ export function AdminProductsScreen() {
                       {typed.blockers.length ? (
                         <ul className="space-y-1 text-xs">
                           {typed.blockers.map((blocker) => (
-                            <li key={blocker.field} className="text-amber-600">
+                            <li key={blocker.field} className="text-warning">
                               {t(blocker.translation_key)}
                             </li>
                           ))}

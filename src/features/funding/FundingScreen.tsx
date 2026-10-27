@@ -63,10 +63,10 @@ export function FundingScreen() {
 
       <Card className="space-y-3">
         <h2 className="flex items-center gap-2 font-semibold">
-          <Banknote aria-hidden className="h-5 w-5 text-leaf-600" />
+          <Banknote aria-hidden className="h-5 w-5 text-primary-text" />
           {t("funding.registerInterest")}
         </h2>
-        {sent ? <p className="rounded-lg bg-leaf-100 p-3 text-sm text-leaf-900">{t("funding.sent")}</p> : null}
+        {sent ? <p className="rounded-lg bg-primary-tint p-3 text-sm text-primary-text">{t("funding.sent")}</p> : null}
 
         <Field label={t("funding.plannedSize")} htmlFor="plannedSize" required>
           <Select
@@ -134,7 +134,7 @@ export function FundingScreen() {
         <label className="flex items-start gap-2 text-sm">
           <input
             type="checkbox"
-            className="mt-0.5 h-5 w-5 accent-leaf-600"
+            className="mt-0.5 h-5 w-5 accent-primary"
             checked={form.consent_to_share}
             onChange={(event) => update("consent_to_share", event.target.checked)}
           />
@@ -142,7 +142,7 @@ export function FundingScreen() {
         </label>
 
         {error ? (
-          <p className="text-sm text-danger-500" role="alert">
+          <p className="text-sm text-danger" role="alert">
             {error}
           </p>
         ) : null}

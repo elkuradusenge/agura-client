@@ -153,8 +153,8 @@ export function PlantsScreen() {
             aria-selected={tab === value}
             className={
               tab === value
-                ? "tap-target whitespace-nowrap rounded-lg bg-leaf-600 px-3 text-sm text-white"
-                : "tap-target whitespace-nowrap rounded-lg bg-earth-100 px-3 text-sm dark:bg-earth-700"
+                ? "tap-target whitespace-nowrap rounded-lg bg-primary px-3 text-sm text-primary-on"
+                : "tap-target whitespace-nowrap rounded-lg bg-surface-raised px-3 text-sm"
             }
             onClick={() => setTab(value)}
           >
@@ -200,7 +200,7 @@ export function PlantsScreen() {
                   {mushroomRows.map((row) => (
                     <tr
                       key={`${row.level}-${row.province}-${row.district}-${row.sector}`}
-                      className="border-t border-earth-200 dark:border-earth-700"
+                      className="border-t border-line"
                     >
                       <th scope="row" className="py-1.5 text-left font-medium">
                         {unitLabel(row)}
@@ -258,7 +258,7 @@ export function PlantsScreen() {
                   {foodRows.slice(0, 60).map((row, index) => (
                     <tr
                       key={`${row.food_item_id ?? index}-${row.province}-${row.district}-${row.sector}`}
-                      className="border-t border-earth-200 dark:border-earth-700"
+                      className="border-t border-line"
                     >
                       <th scope="row" className="py-1.5 text-left font-medium">
                         {row.standard_name ?? "-"}
@@ -320,7 +320,7 @@ export function PlantsScreen() {
                       ))}
                     </ul>
                     {components.some(([, component]) => component.definition_source === "configured_codes") ? (
-                      <p className="text-xs text-amber-600">{t("analysis.configuredCodes")}</p>
+                      <p className="text-xs text-warning">{t("analysis.configuredCodes")}</p>
                     ) : null}
                   </li>
                 );

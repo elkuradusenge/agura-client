@@ -63,7 +63,7 @@ export function AdminSettingsScreen() {
                 </div>
                 <textarea
                   aria-label={setting.key}
-                  className="min-h-16 w-full rounded-xl border border-earth-300 bg-white p-2 font-mono text-xs dark:border-earth-600 dark:bg-earth-900"
+                  className="min-h-16 w-full rounded-xl border border-line-strong bg-surface p-2 font-mono text-xs "
                   value={raw}
                   onChange={(event) => setDrafts((current) => ({ ...current, [setting.key]: event.target.value }))}
                 />

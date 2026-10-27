@@ -17,7 +17,7 @@ export function NotificationsScreen() {
   if (isError)
     return <ErrorState title={t("common.error")} retryLabel={t("common.retry")} onRetry={() => void refetch()} />;
   if (!data?.items.length)
-    return <EmptyState title={t("notifications.none")} icon={<Bell aria-hidden className="h-8 w-8 text-leaf-600" />} />;
+    return <EmptyState title={t("notifications.none")} icon={<Bell aria-hidden className="h-8 w-8 text-primary-text" />} />;
 
   return (
     <div className="space-y-4">

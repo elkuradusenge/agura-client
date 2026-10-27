@@ -58,7 +58,7 @@ export function PlantScreen() {
       <div className="space-y-4">
         <Card className="space-y-2">
           <p className="flex items-center gap-2 text-lg font-semibold">
-            <CheckCircle2 aria-hidden className="h-5 w-5 text-leaf-600" />
+            <CheckCircle2 aria-hidden className="h-5 w-5 text-primary-text" />
             {t("plantings.title")}
           </p>
           <p className="muted text-sm">
@@ -108,16 +108,16 @@ export function PlantScreen() {
                 <label className="flex items-center gap-2 text-sm">
                   <input
                     type="checkbox"
-                    className="h-5 w-5 accent-leaf-600"
+                    className="h-5 w-5 accent-primary"
                     checked={isOwned}
                     onChange={(event) =>
                       setOwned((current) => ({ ...current, [resource.name]: event.target.checked }))
                     }
                   />
                   {isOwned ? (
-                    <CheckCircle2 aria-hidden className="h-4 w-4 text-leaf-600" />
+                    <CheckCircle2 aria-hidden className="h-4 w-4 text-primary-text" />
                   ) : (
-                    <Circle aria-hidden className="h-4 w-4 text-earth-400" />
+                    <Circle aria-hidden className="h-4 w-4 text-ink-muted" />
                   )}
                   <span className="flex-1">{resource.name}</span>
                   <span className="muted text-xs">
@@ -155,7 +155,7 @@ export function PlantScreen() {
       </Card>
 
       {error ? (
-        <p className="text-sm text-danger-500" role="alert">
+        <p className="text-sm text-danger" role="alert">
           {error}
         </p>
       ) : null}

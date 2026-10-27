@@ -20,15 +20,36 @@ afterEach(() => {
 });
 
 describe("App", () => {
-  it("renders the welcome screen for a signed out visitor", async () => {
+  it("renders the public landing page at the root route", async () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
       </MemoryRouter>,
     );
 
-    expect(await screen.findByRole("heading", { level: 1 })).toBeInTheDocument();
-    expect(screen.getAllByRole("link").length).toBeGreaterThan(0);
+    // Kinyarwanda is the default language, so read the expected copy from it.
+    expect(await screen.findByRole("heading", { level: 1, name: rw["landing.hero.title"] })).toBeInTheDocument();
+    expect(screen.getByText(rw["landing.problem.title"])).toBeInTheDocument();
+    expect(screen.getByText(rw["landing.get.title"])).toBeInTheDocument();
+    expect(screen.getByText(rw["landing.faq.title"])).toBeInTheDocument();
+
+    // The three calls to action a visitor needs before signing in.
+    const links = screen.getAllByRole("link");
+    expect(links.some((link) => link.getAttribute("href") === "/sign-up")).toBe(true);
+    expect(links.some((link) => link.getAttribute("href") === "/sign-in")).toBe(true);
+  });
+
+  it("keeps every landing section reachable by a heading", async () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await screen.findByRole("heading", { level: 1 });
+    const headings = screen.getAllByRole("heading");
+    // A marketing page is scanned by headings, so each section must have one.
+    expect(headings.length).toBeGreaterThanOrEqual(10);
   });
 
   it("renders the style guide with real controls and charts", async () => {

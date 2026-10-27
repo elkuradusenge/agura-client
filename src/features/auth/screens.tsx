@@ -1,8 +1,8 @@
-/** Welcome, sign up, sign in, password reset and the administrator sign in. */
+/** Sign up, sign in, password reset and the administrator sign in. */
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, KeyRound, Leaf, Loader2, Phone, ShieldCheck, Sprout } from "lucide-react";
+import { KeyRound, Leaf, Loader2, Phone, ShieldCheck, Sprout } from "lucide-react";
 import { authApi } from "../../lib/api";
 import { ApiError } from "../../lib/api/client";
 import { useI18n } from "../../lib/i18n";
@@ -19,40 +19,6 @@ function useErrorText() {
     if (error instanceof Error) return error.message;
     return null;
   };
-}
-
-export function WelcomeScreen() {
-  const { t } = useI18n();
-  return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-6 px-5 py-10">
-      <div className="space-y-3 text-center">
-        <Sprout aria-hidden className="mx-auto h-14 w-14 text-leaf-600" />
-        <h1 className="text-3xl font-bold">{t("auth.welcome.title")}</h1>
-        <p className="muted">{t("auth.welcome.body")}</p>
-      </div>
-
-      <Card className="space-y-3">
-        <Link to="/sign-up">
-          <Button fullWidth icon={<ArrowRight aria-hidden className="h-4 w-4" />}>
-            {t("auth.signUp")}
-          </Button>
-        </Link>
-        <Link to="/sign-in">
-          <Button fullWidth variant="secondary">
-            {t("auth.signIn")}
-          </Button>
-        </Link>
-      </Card>
-
-      <Link
-        to="/admin/sign-in"
-        className="tap-target mx-auto flex items-center gap-2 text-sm text-leaf-700 underline-offset-4 hover:underline dark:text-leaf-200"
-      >
-        <ShieldCheck aria-hidden className="h-4 w-4" />
-        {t("auth.adminSignIn")}
-      </Link>
-    </div>
-  );
 }
 
 export function SignUpScreen() {
@@ -81,7 +47,7 @@ export function SignUpScreen() {
   }
 
   return (
-    <AuthShell title={t("auth.signUp")} icon={<Sprout aria-hidden className="h-8 w-8 text-leaf-600" />}>
+    <AuthShell title={t("auth.signUp")} icon={<Sprout aria-hidden className="h-8 w-8 text-primary-text" />}>
       <form className="space-y-4" onSubmit={submit}>
         <Field label={t("auth.phone")} htmlFor="phone" required hint="0788123456">
           <Input
@@ -116,7 +82,7 @@ export function SignUpScreen() {
           />
         </Field>
         {error ? (
-          <p className="text-sm text-danger-500" role="alert">
+          <p className="text-sm text-danger" role="alert">
             {error}
           </p>
         ) : null}
@@ -161,7 +127,7 @@ export function SignInScreen() {
   }
 
   return (
-    <AuthShell title={t("auth.signIn")} icon={<Leaf aria-hidden className="h-8 w-8 text-leaf-600" />}>
+    <AuthShell title={t("auth.signIn")} icon={<Leaf aria-hidden className="h-8 w-8 text-primary-text" />}>
       <form className="space-y-4" onSubmit={submit}>
         <Field label={t("auth.phone")} htmlFor="phone" required>
           <Input
@@ -186,7 +152,7 @@ export function SignInScreen() {
           />
         </Field>
         {error ? (
-          <p className="text-sm text-danger-500" role="alert">
+          <p className="text-sm text-danger" role="alert">
             {error}
           </p>
         ) : null}
@@ -249,7 +215,7 @@ export function ResetPasswordScreen() {
   }
 
   return (
-    <AuthShell title={t("auth.resetPassword")} icon={<KeyRound aria-hidden className="h-8 w-8 text-leaf-600" />}>
+    <AuthShell title={t("auth.resetPassword")} icon={<KeyRound aria-hidden className="h-8 w-8 text-primary-text" />}>
       {stage === "request" ? (
         <form className="space-y-4" onSubmit={requestCode}>
           <Field label={t("auth.phone")} htmlFor="phone" required>
@@ -261,7 +227,7 @@ export function ResetPasswordScreen() {
               onChange={(event) => setPhone(event.target.value)}
             />
           </Field>
-          {error ? <p className="text-sm text-danger-500" role="alert">{error}</p> : null}
+          {error ? <p className="text-sm text-danger" role="alert">{error}</p> : null}
           <Button type="submit" fullWidth loading={busy}>
             {t("auth.sendCode")}
           </Button>
@@ -289,7 +255,7 @@ export function ResetPasswordScreen() {
               onChange={(event) => setPassword(event.target.value)}
             />
           </Field>
-          {error ? <p className="text-sm text-danger-500" role="alert">{error}</p> : null}
+          {error ? <p className="text-sm text-danger" role="alert">{error}</p> : null}
           <Button type="submit" fullWidth loading={busy}>
             {t("auth.resetPassword")}
           </Button>
@@ -326,7 +292,7 @@ export function AdminSignInScreen() {
   return (
     <AuthShell
       title={t("auth.adminSignIn")}
-      icon={<ShieldCheck aria-hidden className="h-8 w-8 text-leaf-600" />}
+      icon={<ShieldCheck aria-hidden className="h-8 w-8 text-primary-text" />}
     >
       <form className="space-y-4" onSubmit={submit}>
         <Field label={t("auth.phone")} htmlFor="identifier" required hint="email or phone">
@@ -347,7 +313,7 @@ export function AdminSignInScreen() {
             onChange={(event) => setPassword(event.target.value)}
           />
         </Field>
-        {error ? <p className="text-sm text-danger-500" role="alert">{error}</p> : null}
+        {error ? <p className="text-sm text-danger" role="alert">{error}</p> : null}
         <Button type="submit" fullWidth loading={busy}>
           {t("auth.signIn")}
         </Button>
@@ -376,7 +342,7 @@ function AuthShell({ title, icon, children }: { title: string; icon: React.React
 export function AuthLoading() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Loader2 aria-hidden className="h-6 w-6 animate-spin text-leaf-600" />
+      <Loader2 aria-hidden className="h-6 w-6 animate-spin text-primary-text" />
       <span className="sr-only">loading</span>
     </div>
   );

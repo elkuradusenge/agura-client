@@ -39,10 +39,10 @@ export function HelpScreen() {
 
       <Card className="space-y-3">
         <h2 className="flex items-center gap-2 font-semibold">
-          <HandHeart aria-hidden className="h-5 w-5 text-leaf-600" />
+          <HandHeart aria-hidden className="h-5 w-5 text-primary-text" />
           {t("help.askSpecialist")}
         </h2>
-        {sent ? <p className="rounded-lg bg-leaf-100 p-3 text-sm text-leaf-900">{t("help.sent")}</p> : null}
+        {sent ? <p className="rounded-lg bg-primary-tint p-3 text-sm text-primary-text">{t("help.sent")}</p> : null}
         <Field label={t("help.topic")} htmlFor="specialistType" required>
           <Select id="specialistType" value={specialistType} onChange={(event) => setSpecialistType(event.target.value)}>
             {SPECIALIST_TYPES.map((value) => (
@@ -61,7 +61,7 @@ export function HelpScreen() {
           />
         </Field>
         {error ? (
-          <p className="text-sm text-danger-500" role="alert">
+          <p className="text-sm text-danger" role="alert">
             {error}
           </p>
         ) : null}
@@ -72,7 +72,7 @@ export function HelpScreen() {
 
       <Card className="space-y-2">
         <h2 className="flex items-center gap-2 font-semibold">
-          <Users aria-hidden className="h-5 w-5 text-leaf-600" />
+          <Users aria-hidden className="h-5 w-5 text-primary-text" />
           {t("help.partners")}
         </h2>
         {partners.isLoading ? (
@@ -80,7 +80,7 @@ export function HelpScreen() {
         ) : partners.data?.partners.length ? (
           <ul className="space-y-2">
             {partners.data.partners.map((partner) => (
-              <li key={partner.code} className="rounded-xl bg-earth-100 p-3 text-sm dark:bg-earth-700">
+              <li key={partner.code} className="rounded-xl bg-surface-raised p-3 text-sm ">
                 <p className="font-medium">{partner.name}</p>
                 <p className="muted">{partner.role}</p>
               </li>

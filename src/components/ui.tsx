@@ -1,22 +1,38 @@
 /** Buttons, inputs and the shared visual vocabulary. Lucide icons only. */
 
-import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type {
+  ButtonHTMLAttributes,
+  InputHTMLAttributes,
+  ReactNode,
+  SelectHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger" | "warning";
+type Size = "sm" | "md" | "lg";
 
+/* Pill buttons, 150 ms press feedback. The tokens flip with the theme, so no
+   dark: variants are needed for colour. */
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-leaf-600 text-white hover:bg-leaf-700 disabled:bg-leaf-300",
+  primary: "bg-primary text-primary-on hover:bg-primary-hover active:bg-primary-active shadow-e1",
   secondary:
-    "bg-earth-100 text-earth-900 hover:bg-earth-200 dark:bg-earth-700 dark:text-earth-50 dark:hover:bg-earth-600",
-  ghost: "bg-transparent text-leaf-700 hover:bg-leaf-50 dark:text-leaf-200 dark:hover:bg-earth-700",
-  danger: "bg-danger-500 text-white hover:bg-danger-600",
-  warning: "bg-amber-500 text-earth-900 hover:bg-amber-600",
+    "border border-line-strong bg-surface text-ink-heading hover:border-primary hover:bg-primary-tint",
+  ghost: "bg-transparent text-primary-text hover:bg-primary-tint",
+  danger: "bg-danger text-canvas hover:opacity-90",
+  warning: "bg-warning text-canvas hover:opacity-90",
+};
+
+const SIZES: Record<Size, string> = {
+  sm: "px-3.5 py-2 text-sm",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-6 py-3 text-base",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
+  size?: Size;
   loading?: boolean;
   icon?: ReactNode;
   fullWidth?: boolean;
@@ -24,6 +40,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({
   variant = "primary",
+  size = "md",
   loading = false,
   icon,
   fullWidth = false,
@@ -35,8 +52,9 @@ export function Button({
   return (
     <button
       className={cn(
-        "tap-target inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 font-medium transition",
-        "disabled:cursor-not-allowed disabled:opacity-70",
+        "tap-target press inline-flex items-center justify-center gap-2 rounded-pill font-medium",
+        "disabled:cursor-not-allowed disabled:opacity-60",
+        SIZES[size],
         VARIANTS[variant],
         fullWidth && "w-full",
         className,
@@ -62,14 +80,18 @@ export interface FieldProps {
 export function Field({ label, hint, error, required, children, htmlFor }: FieldProps) {
   return (
     <label className="block space-y-1.5" htmlFor={htmlFor}>
-      <span className="block text-sm font-medium">
+      <span className="block text-sm font-medium text-ink-heading">
         {label}
-        {required ? <span className="text-danger-500"> *</span> : null}
+        {required ? (
+          <span className="text-danger" aria-hidden>
+            {" *"}
+          </span>
+        ) : null}
       </span>
       {children}
       {hint ? <span className="muted block text-xs">{hint}</span> : null}
       {error ? (
-        <span className="block text-xs text-danger-500" role="alert">
+        <span className="block text-xs font-medium text-danger" role="alert">
           {error}
         </span>
       ) : null}
@@ -77,9 +99,8 @@ export function Field({ label, hint, error, required, children, htmlFor }: Field
   );
 }
 
-const CONTROL =
-  "tap-target w-full rounded-xl border border-earth-300 bg-white px-3 py-2 text-earth-900 placeholder:text-earth-400 " +
-  "dark:border-earth-600 dark:bg-earth-800 dark:text-earth-50 dark:placeholder:text-earth-400";
+/* 12px radius, 1px hairline, teal focus ring. */
+const CONTROL = "tap-target field";
 
 export function Input({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={cn(CONTROL, className)} {...rest} />;
@@ -91,7 +112,7 @@ export function Textarea({ className, ...rest }: TextareaHTMLAttributes<HTMLText
 
 export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
-    <select className={cn(CONTROL, className)} {...rest}>
+    <select className={cn(CONTROL, "appearance-none pr-9", className)} {...rest}>
       {children}
     </select>
   );
@@ -100,11 +121,11 @@ export function Select({ className, children, ...rest }: SelectHTMLAttributes<HT
 type BadgeTone = "neutral" | "success" | "warning" | "danger" | "info";
 
 const BADGE_TONES: Record<BadgeTone, string> = {
-  neutral: "bg-earth-100 text-earth-800 dark:bg-earth-700 dark:text-earth-100",
-  success: "bg-leaf-100 text-leaf-800 dark:bg-leaf-800 dark:text-leaf-50",
-  warning: "bg-amber-400/25 text-earth-900 dark:text-amber-400",
-  danger: "bg-danger-500/15 text-danger-600 dark:text-danger-500",
-  info: "bg-leaf-50 text-leaf-700 dark:bg-earth-700 dark:text-leaf-100",
+  neutral: "bg-surface-raised text-ink-heading",
+  success: "bg-success-tint text-success",
+  warning: "bg-warning-tint text-warning",
+  danger: "bg-danger-tint text-danger",
+  info: "bg-primary-tint text-primary-text",
 };
 
 /**
@@ -123,7 +144,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium",
+        "inline-flex items-center gap-1 rounded-pill px-2.5 py-1 text-xs font-medium",
         BADGE_TONES[tone],
       )}
     >
@@ -133,28 +154,39 @@ export function Badge({
   );
 }
 
-export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("card", className)}>{children}</div>;
+export function Card({
+  children,
+  className,
+  interactive = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  interactive?: boolean;
+}) {
+  return <div className={cn("card", interactive && "card-interactive", className)}>{children}</div>;
 }
 
 export function ProgressBar({ value, label }: { value: number; label: string }) {
   const clamped = Math.max(0, Math.min(100, value));
   return (
     <div
-      className="h-2.5 w-full overflow-hidden rounded-full bg-earth-200 dark:bg-earth-700"
+      className="h-2.5 w-full overflow-hidden rounded-pill bg-surface-raised"
       role="progressbar"
       aria-valuenow={clamped}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label}
     >
-      <div className="h-full rounded-full bg-leaf-600 transition-all" style={{ width: `${clamped}%` }} />
+      <div
+        className="h-full rounded-pill bg-primary transition-all duration-slow ease-material"
+        style={{ width: `${clamped}%` }}
+      />
     </div>
   );
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn("animate-pulse rounded-xl bg-earth-200 dark:bg-earth-700", className)} />;
+  return <div className={cn("animate-pulse rounded-card bg-surface-raised", className)} />;
 }
 
 export function EmptyState({
@@ -169,19 +201,29 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-earth-300 p-8 text-center dark:border-earth-600">
+    <div className="flex flex-col items-center gap-3 rounded-panel border border-dashed border-line-strong p-8 text-center">
       {icon}
-      <p className="font-semibold">{title}</p>
+      <p className="font-medium text-ink-heading">{title}</p>
       {body ? <p className="muted text-sm">{body}</p> : null}
       {action}
     </div>
   );
 }
 
-export function ErrorState({ title, body, onRetry, retryLabel }: { title: string; body?: string; onRetry?: () => void; retryLabel: string }) {
+export function ErrorState({
+  title,
+  body,
+  onRetry,
+  retryLabel,
+}: {
+  title: string;
+  body?: string;
+  onRetry?: () => void;
+  retryLabel: string;
+}) {
   return (
-    <div className="rounded-2xl border border-danger-500/40 bg-danger-500/5 p-6" role="alert">
-      <p className="font-semibold text-danger-600 dark:text-danger-500">{title}</p>
+    <div className="rounded-panel border border-danger bg-danger-tint p-6" role="alert">
+      <p className="font-medium text-danger">{title}</p>
       {body ? <p className="muted mt-1 text-sm">{body}</p> : null}
       {onRetry ? (
         <Button variant="secondary" className="mt-3" onClick={onRetry}>
