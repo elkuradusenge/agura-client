@@ -14,6 +14,7 @@ import {
   Bell,
   BookOpen,
   Building2,
+  ChevronDown,
   CircleHelp,
   Droplets,
   GraduationCap,
@@ -235,7 +236,10 @@ export function LandingPage() {
         </Section>
 
         <Section labelledBy="product-title">
-          <SectionHeading id="product-title" title={t("landing.product.eyebrow")} />
+          <p className="mb-2 text-sm font-medium uppercase tracking-wide text-primary-text">
+            {t("landing.product.eyebrow")}
+          </p>
+          <SectionHeading id="product-title" title={t("landing.product.title")} />
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="panel flex flex-col justify-center gap-3 p-8">
               <span className="flex h-14 w-14 items-center justify-center rounded-panel bg-primary-tint text-primary-text">
@@ -349,9 +353,9 @@ export function LandingPage() {
               <details key={index} className="group rounded-card border border-line bg-surface px-5 py-4">
                 <summary className="press flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-ink-heading">
                   {t(`landing.faq.q${index}`)}
-                  <MessageSquare
+                  <ChevronDown
                     aria-hidden
-                    className="h-4 w-4 shrink-0 text-ink-muted transition-transform duration-base ease-material group-open:rotate-12"
+                    className="h-4 w-4 shrink-0 text-ink-muted transition-transform duration-base ease-material group-open:rotate-180"
                   />
                 </summary>
                 <p className="muted mt-3 text-sm leading-relaxed">{t(`landing.faq.a${index}`)}</p>
