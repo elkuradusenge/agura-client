@@ -1,4 +1,4 @@
-run = "pnpm dev"
+run = "yarn dev"
 entrypoint = "index.html"
 modules = ["nodejs-20"]
 

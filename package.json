@@ -12,7 +12,7 @@
     "check:em-dash": "node scripts/check-no-em-dash.mjs",
     "check:icons": "node scripts/check-lucide-only.mjs",
     "check:font": "node scripts/check-syne-only.mjs",
-    "check:all": "pnpm run typecheck && pnpm run check:em-dash && pnpm run check:icons && pnpm run check:font && pnpm run test"
+    "check:all": "yarn run typecheck && yarn run check:em-dash && yarn run check:icons && yarn run check:font && yarn run test"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.7",
@@ -24,13 +24,13 @@
     "recharts": "^2.15.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "esbuild": "^0.28.2",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
@@ -38,5 +38,8 @@
     "vite": "^6.0.5",
     "vitest": "^3.2.7"
   },
-  "packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee"
+  "resolutions": {
+    "vite": "^6.0.5"
+  },
+  "packageManager": "yarn@1.22.22"
 }

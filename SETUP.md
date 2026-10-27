@@ -6,25 +6,26 @@ One application, two audiences: a farmer app at `/app` and an internal console a
 ## Run it
 
 ```bash
-pnpm install
+yarn install
 cp .env.example .env
-pnpm dev
+yarn dev
 ```
 
-`pnpm`, not `npm`. The lockfile and the build approvals in `pnpm-workspace.yaml`
-are pnpm specific; `npm` fails on the esbuild postinstall in this project.
+Use **Yarn 1 (classic)**, pinned in `packageManager`. `yarn.lock` is committed;
+commit the lockfile with any dependency change and do not mix in another package
+manager, because a second lockfile silently resolves a different tree.
 
 | Script | Purpose |
 | --- | --- |
-| `pnpm dev` | Vite dev server on port 5173 |
-| `pnpm build` | type check then production build into `dist/` |
-| `pnpm preview` | serve the production build |
-| `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm test` | Vitest |
-| `pnpm check:em-dash` | ban the em dash in copy and code |
-| `pnpm check:icons` | only Lucide may be imported |
-| `pnpm check:font` | only Syne may be used as a typeface |
-| `pnpm check:all` | all of the above |
+| `yarn dev` | Vite dev server on port 5173 |
+| `yarn build` | type check then production build into `dist/` |
+| `yarn preview` | serve the production build |
+| `yarn typecheck` | `tsc --noEmit` |
+| `yarn test` | Vitest |
+| `yarn check:em-dash` | ban the em dash in copy and code |
+| `yarn check:icons` | only Lucide may be imported |
+| `yarn check:font` | only Syne may be used as a typeface |
+| `yarn check:all` | all of the above |
 
 ## Environment
 
@@ -112,7 +113,12 @@ interpolated. The three dictionaries are kept key-identical by a test.
 
 - The console bundle is lazy loaded. A farmer never downloads it.
 - Recharts lives in its own chunk, so the farmer entry stays small.
-- `pnpm-workspace.yaml` is present only to grant the esbuild build approval that
-  pnpm 10+ requires; it is not a monorepo.
+- `@testing-library/dom` is an explicit devDependency because both
+  `@testing-library/react` and `@testing-library/jest-dom` declare it as a peer.
+  A package manager that hoists it transitively hides the omission; Yarn 1 does
+  not, so it is declared rather than assumed.
+- `resolutions` pins Vite to one major. `vitest` declares Vite as a plain
+  dependency rather than a peer, so Yarn would otherwise nest a second, newer Vite
+  beside the app's own and the config types would stop matching. One Vite at a time.
 - The style guide at `/style-guide` is the source of truth for tokens. Change the
   guide when you change a token.

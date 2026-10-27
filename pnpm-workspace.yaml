@@ -1,5 +1,0 @@
-# pnpm 10+ reads build approvals from here, not from package.json.
-packages:
-  - "."
-allowBuilds:
-  esbuild: true
