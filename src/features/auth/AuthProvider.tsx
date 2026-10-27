@@ -40,9 +40,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(await meApi.read());
         setAdmin(null);
       } else {
-        // The administrator profile comes back on the login response only, so a
-        // reload restores just the token and the role is read from the token claim.
-        setAdmin((previous) => previous);
+        // Reloading keeps the token but not the login response, so permissions
+        // are fetched again. Console navigation depends on them.
+        setAdmin(await authApi.adminMe());
         setUser(null);
       }
       setKind(currentKind);

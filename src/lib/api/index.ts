@@ -33,6 +33,7 @@ export const authApi = {
     api.post<AuthResponse<UserAccount>>("/auth/register", body),
   login: (body: { phone: string; password: string }) =>
     api.post<AuthResponse<UserAccount>>("/auth/login", body),
+  adminMe: () => api.get<AdminAccount>("/auth/admin/me"),
   adminLogin: (body: { identifier: string; password: string }) =>
     api.post<AuthResponse<AdminAccount>>("/auth/admin/login", body),
   logout: (refresh_token: string | null) =>
