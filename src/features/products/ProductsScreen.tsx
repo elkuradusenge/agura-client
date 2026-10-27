@@ -303,7 +303,9 @@ export function ProductDetailScreen() {
                   share: formatPercent(context.share, 1),
                   year: context.source_year ?? "",
                 })
-              : t("products.suppressed")}
+              : context.suppressed
+                ? t(context.translation_key ?? "products.suppressed")
+                : t("analysis.not_available")}
             {context.source_name ? <span className="muted block text-xs">{context.source_name}</span> : null}
           </p>
         </Card>
