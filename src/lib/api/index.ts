@@ -140,9 +140,13 @@ export const adminAnalysisApi = {
       { query },
     ),
   diversity: (query: Record<string, string | undefined>) =>
-    api.get<{ items: Array<Record<string, unknown>> }>("/admin/analysis/diversity", { query }),
+    api.get<{ meta: unknown; items: Array<Record<string, unknown>> }>("/admin/analysis/diversity", {
+      query,
+    }),
   readiness: (query: Record<string, string | undefined>) =>
-    api.get<{ items: Array<Record<string, unknown>> }>("/admin/analysis/readiness", { query }),
+    api.get<{ meta: unknown; items: Array<Record<string, unknown>> }>("/admin/analysis/readiness", {
+      query,
+    }),
   foodItems: (query?: { q?: string; group?: string }) =>
     api.get<Page<{ id: string; standard_name: string; group: string; source_variable: string }>>(
       "/admin/food-items",

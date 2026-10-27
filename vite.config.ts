@@ -24,5 +24,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     css: false,
+    // The render tests mount the whole app, which is slower than a unit test.
+    testTimeout: 15_000,
   },
 });
